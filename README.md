@@ -9,3 +9,6 @@ So dope...
 [mailto:brianc2788@gmail.com]
 = = =
 http://www.github.com/user5260/go
+<!---
+numerous Markdown mistakes.
+--->
