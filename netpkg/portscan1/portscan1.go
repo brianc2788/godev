@@ -1,5 +1,6 @@
 /*
-use net module to create 
+scan a port.
+github.com/user5260/go/netpkg/portscan1
 */
 package main
 import (
@@ -20,5 +21,6 @@ func main() {
 	/* TODO:
 		print error
 		close socket
+		get url & port from user.
 	*/
 }
