@@ -17,4 +17,8 @@ func main() {
 	if err == nil {
 		fmt.Println("Connected to",host)	// sep defaults to ' '.
 	}
+	/* TODO:
+		print error
+		close socket
+	*/
 }
