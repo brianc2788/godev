@@ -7,8 +7,9 @@ package main
 
 import (
 	"fmt"
-	//"rsc.io/quote" // cool quote i found in the Go Tour thing.
-	"https://github.com/rsc/quote/blob/v4.0.1/quote.go"
+	//"rsc.io/quote"
+	//"https://github.com/rsc/quote/blob/v4.0.1/quote.go"
+        // cant get it working lol n00b.
 )
 
 func main() {
@@ -33,8 +34,8 @@ func main() {
 	fmt.Printf("more debug:\n%s - %s\n",var1,var2)
 
 	// another alternate declaration...
-	var var3 = quote.Go()
-	fmt.Print(var3)
+	//var var3 = quote.Go()
+	//fmt.Print(var3)
 
 	fmt.Print("Exiting.......")
 }
