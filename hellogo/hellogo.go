@@ -1,7 +1,8 @@
 /********************************************
 * hellogo.go
-* Slightly more printing than your average
-* "HelloWorld" code.
+* testing several print functions.
+* can you tell that i struggle to come up
+* with arbitrary text?
 ********************************************/
 package main
 
@@ -13,12 +14,12 @@ import (
 )
 
 func main() {
-	// declare some local variables.
-	worldstr := "world"
-	UltimateHuman := "Ken Thompson"
+	// locals
+	worldstr := "sekai"
+	//I can't get the book's kanji to work, so here's the romanji. yeah, I know a little.
+	goauthor1 := "Ken Thompson"
 
-	// alternate declaration;
-	// as opposed to "name := value".
+	//alt declaration
 	var (
 		var1 string
 		var2 string
@@ -27,13 +28,14 @@ func main() {
 	var1 = "thing1"
 	var2 = "thing2"
 	
-	fmt.Println("Hello,", UltimateHuman, "!") //has a separator
+	fmt.Println("Hello,", goauthor1, "!") //has a separator
 	fmt.Printf("I mean, jello, %s!\n", worldstr)
 	fmt.Println("I mean...\nHello, Println, Printf, Print, et al.")
-	fmt.Print("Print() just prints the stuff you give it; no separators, formatting, etc.\nsee? no newline.\nOh, actually, it does do the bslash esc newlines... huh.\n")
+	fmt.Print("Print() just prints the stuff you give it; no separators,",
+	          "formatting, etc.\nsee? no newline.\n",
+	          "Oh, actually, it does do the bslash esc newlines... huh.\n")
 	fmt.Printf("more debug:\n%s - %s\n",var1,var2)
 
-	// another alternate declaration...
 	//var var3 = quote.Go()
 	//fmt.Print(var3)
 
