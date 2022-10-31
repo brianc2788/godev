@@ -2,8 +2,7 @@
  * portscan1.go
 create a tcp socket and connect to "http://scanme.nmap.org",
 aka "scanme.nmap.org:80".
-brianc2788@gmail.com
-github.com/user5260/go
+http://brianc2788.github.io
 ***********************************************************/
 package main
 import (
