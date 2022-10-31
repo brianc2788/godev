@@ -1,9 +1,9 @@
 /*******************************************************************************
  * urlfetch.go
- * combining chapters 1.2, 1.5, and 1.6 - cli args, fetching urls, and
- * concurrency (respectively).
- * authored by brianc2788@gmail.com
- * http://github.com/user5260
+ * -----------
+ * combining chapters 1.2, 1.5 - cli args, fetching urls.
+ * Right now, just takes a URL (with schema) and returns the html.
+ * http://brianc2788.github.io
 *******************************************************************************/
 package main
 
@@ -26,7 +26,7 @@ func main() {
         b,err := ioutil.ReadAll(resp.Body)
         resp.Body.Close()
 
-        if err !- nil {
+        if err != nil {
             fmt.Fprintf(os.Stderr, "fetch read: %s (%v)\n", url, err)
             os.Exit(1)
         }
