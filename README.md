@@ -1,5 +1,5 @@
 <!---
-readme. markdown.
+readme. github. markdown.
 --->
 ## Go Programming Language Repository ##
 
@@ -10,6 +10,6 @@ Thanks for checking it out.
 
 (email)[mailto:brianc2788@gmail.com]
 
-(main github)[http://www.github.com/user5260/user5260]
+(Website - *Hosted by Github Pages*)[http://brianc2788.github.io]
 
 ---
