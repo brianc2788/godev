@@ -1,21 +1,26 @@
-/***********************************************************
- * godig
- * -----
- * A version of the dig tool from gnu. Sort of.
- * Inspired by "Black Hat Go" by Tom Steele, Chris Patten, and Dan Kottmann.
- * 
- * TODO:-Parse and, if necessary, decompress dns response.
- * 		-Impl. arg parser with switches for options.
- * 		-Opts include dns server, query type, etc.
- * 		-Impl. other dns query types, services.
- * 		-DNSec?
- * 		-Continue improving code readability & optimize.
- http://brianc2788.github.io
-***********************************************************/
+/*
+**********************************************************
+  - godig
+  - -----
+  - A version of the dig tool from gnu. Sort of.
+  - Inspired by "Black Hat Go" by Tom Steele, Chris Patten, and Dan Kottmann.
+    *
+  - TODO:-Parse and, if necessary, decompress dns response.
+  - -Impl. arg parser with switches for options.
+  - -Opts include dns server, query type, etc.
+  - -Impl. other dns query types, services.
+  - -DNSec?
+  - -Continue improving code readability & optimize.
+    http://brianc2788.github.io
+
+**********************************************************
+*/
 package main
+
 import (
 	"fmt"
 	"os"
+
 	"github.com/miekg/dns"
 )
 
@@ -35,9 +40,9 @@ func getDnsAddr() string {
 func sendQuery(domainName string) dns.Msg {
 	var msg dns.Msg
 	fqdn := dns.Fqdn(domainName)
-	msg.SetQuestion(fqdn,dns.TypeA)
+	msg.SetQuestion(fqdn, dns.TypeA)
 	dns.Exchange(&msg, getDnsAddr())
-	
+
 	return msg
 }
 
