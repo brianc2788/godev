@@ -2,9 +2,10 @@
 **********************************************************
 * godig.go
 * --------------------------------------------------------
-* dig wannabe written in Go.
-* TODO:
+* Clone of dig (not really) from gnu written in Go.
+* TODO: Reduce bloat.
 * - Parse, print answer(s).
+* - Add TLD challenge to processName().
 * - PTR records for reverse lookup (ipv4 -> name).
 http://brianc2788.github.io/
 **********************************************************
@@ -31,9 +32,14 @@ func main() {
 
 	/* Loop through args with sendQuery(). */
 	for userArg := 1; userArg < argCount; userArg++ {
-		name := argList[userArg]
-		fqname := dns.Fqdn(name)
-		rMsg := getRecordA(name)
+		nameIn := argList[userArg]
+		fqname := processName(nameIn)
+		rMsg := new(dns.Msg)
+
+		rMsg, merr := getRecordA(fqname)
+		if merr != nil {
+			panic(merr)
+		}
 
 		fmt.Printf("### INPUT ###\n")
 		fmt.Printf("name: %s\n", argList[userArg])
@@ -45,6 +51,14 @@ func main() {
 	}
 }
 
+/* Check user's domain names. */
+func processName(TestName string) string {
+	if !dns.IsFqdn(TestName) {
+		return dns.Fqdn(TestName)
+	}
+	return TestName
+}
+
 /* Returns the IPv4 of DNS server; with separator & port. */
 func getDnsAddr() string {
 	fullAddr := DNS_GOOGLE_ADDR + DNS_SEP + DNS_PORT
@@ -52,16 +66,14 @@ func getDnsAddr() string {
 }
 
 /* Resolve names via DNS, print to stdout. */
-func getRecordA(domainName string) *dns.Msg {
+func getRecordA(dn string) (*dns.Msg, error) {
 	var nMsg dns.Msg
-	fqdn := dns.Fqdn(domainName) // Don't need trailing period.
-	nMsg.SetQuestion(fqdn, dns.TypeA)
+	nMsg.SetQuestion(dn, dns.TypeA)
 	_, err := dns.Exchange(&nMsg, getDnsAddr())
 
 	if err != nil {
-		fmt.Printf("Problem exchanging datagrams; Aborting.\nError/StackTrace:\n")
-		panic(err)
+		return nil, fmt.Errorf("Error during dns exchange.\nRuntime Error:\n%s", err)
 	}
 
-	return &nMsg
+	return &nMsg, nil
 }
