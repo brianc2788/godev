@@ -7,6 +7,7 @@
 * - Parse, print answer(s).
 * - Add TLD challenge to processName().
 * - PTR records for reverse lookup (ipv4 -> name).
+* - User Server input
 http://brianc2788.github.io/
 **********************************************************
 */
@@ -19,20 +20,20 @@ import (
 	"github.com/miekg/dns"
 )
 
-const DNS_SEP = ":"
-const DNS_PORT = "53"
-const DNS_GOOGLE_ADDR = "8.8.8.8"
-const DNS_CLOUDFLARE_ADDR = "1.1.1.1"
-const DNS_LOCAL_ADDR = "192.168.1.1" /* Leave empty for dns mod? */
+/* Constants for open resolvers. */
+const RESOLVER_URL_SEP = ":"
+const RESOLVER_PORT = "53"
+const RESOLVER_IPV4_GOOGLE = "8.8.8.8"
+const RESOLVER_IPV4_CLOUDFLARE = "1.1.1.1"
+const RESOLVER_IPV4_LOCAL = ""
 
 /* MAIN */
 func main() {
-	argList := os.Args
-	argCount := len(argList)
+	argVars := os.Args
+	argCount := len(argVars)
 
-	/* Loop through args with sendQuery(). */
-	for userArg := 1; userArg < argCount; userArg++ {
-		nameIn := argList[userArg]
+	for nArg := 1; nArg < argCount; nArg++ {
+		nameIn := argVars[nArg]
 		fqname := processName(nameIn)
 		rMsg := new(dns.Msg)
 
@@ -42,7 +43,7 @@ func main() {
 		}
 
 		fmt.Printf("### INPUT ###\n")
-		fmt.Printf("name: %s\n", argList[userArg])
+		fmt.Printf("name: %s\n", argVars[nArg])
 		fmt.Printf("fqdn: %s\n", fqname)
 		for _, q := range rMsg.Question {
 			fmt.Printf("payload: %s\n", q.Name)
@@ -61,7 +62,7 @@ func processName(TestName string) string {
 
 /* Returns the IPv4 of DNS server; with separator & port. */
 func getDnsAddr() string {
-	fullAddr := DNS_GOOGLE_ADDR + DNS_SEP + DNS_PORT
+	fullAddr := RESOLVER_IPV4_GOOGLE + RESOLVER_URL_SEP + RESOLVER_PORT
 	return fullAddr
 }
 
