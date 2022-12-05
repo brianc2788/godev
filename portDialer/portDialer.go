@@ -25,10 +25,11 @@ func main() {
 	}
 
 	DestIP := CliArgs[1]
+	PortSuffix := ":80"
 	TransportLayer := "tcp"
 
 	// Dial it in.
-	c, err := net.Dial(TransportLayer, DestIP)
+	c, err := net.Dial(TransportLayer, (DestIP + PortSuffix))
 	if err != nil {
 		fmt.Printf("Error :%s\n", err)
 	} else {
