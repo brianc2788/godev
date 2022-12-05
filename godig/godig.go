@@ -1,16 +1,17 @@
 /*
-**********************************************************
+********************************************************************************
 * godig.go
-* --------------------------------------------------------
-* Clone of dig (not really) from gnu written in Go.
+* ------------------------------------------------------------------------------
+* Clone of BIND's digutil (not really) written in Go.
 * TODO: Reduce bloat.
 * - Parse, print answer(s).
 * - Use TTL to determine if domain was cached.
 * - Check TLD in processName().
-* - PTR records for reverse lookup (ipv4 -> name).
+* - Implement reverse lookups (PTR records); CLI switch for rec types.
 * - User Server input
+* - Goroutines (concurrency)
 http://brianc2788.github.io/
-**********************************************************
+********************************************************************************
 */
 package main
 
@@ -35,6 +36,7 @@ func main() {
 	argVars := os.Args
 	argCount := len(argVars)
 
+	/* For each domain arg, process name, exchange dgrams, output info. */
 	for nArg := 1; nArg < argCount; nArg++ {
 		nameIn := argVars[nArg]
 		fqname := processName(nameIn)
@@ -44,29 +46,39 @@ func main() {
 		if merr != nil {
 			panic(merr)
 		}
-
-		fmt.Printf("### INPUT ###\n")
-		fmt.Printf("name: %s\n", argVars[nArg])
-		fmt.Printf("fqdn: %s\n", fqname)
-		for _, q := range rMsg.Question {
-			fmt.Printf("payload: %s\n", q.Name)
-		}
-		fmt.Printf("\n")
+		printQuestions(rMsg)
+		//printAnswers(rMsg)
 	}
 }
 
 /* Check user's domain names. */
-func processName(TestName string) string {
-	if !dns.IsFqdn(TestName) {
-		return dns.Fqdn(TestName)
+func processName(dname string) string {
+	if !dns.IsFqdn(dname) {
+		return dns.Fqdn(dname)
 	}
-	return TestName
+	return dname
 }
 
 /* Concatonate domain name variables. */
 func catDnsAddr() string {
 	fullAddr := RESOLVER_IPV4_GOOGLE + RESOLVER_URL_SEP + RESOLVER_PORT
 	return fullAddr
+}
+
+func printQuestions(msgp *dns.Msg) {
+	for n, q := range msgp.Question {
+		fmt.Printf("payload %d: %s\n", n+1, q.Name)
+	}
+	fmt.Printf("\n")
+}
+
+func printAnswers(msgp *dns.Msg) {
+	/*
+		for n, a := range msgp.Answer {
+			fmt.Printf("answer %d: %s\n", n, a)
+		}
+		fmt.Printf("\n")
+	*/
 }
 
 /* Resolve names via DNS, print to stdout. */
