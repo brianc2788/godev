@@ -22,11 +22,13 @@ import (
 )
 
 /* Constants for open resolvers. */
-const RESOLVER_URL_SEP = ":"
-const RESOLVER_PORT = "53"
-const RESOLVER_IPV4_GOOGLE = "8.8.8.8"
-const RESOLVER_IPV4_CLOUDFLARE = "1.1.1.1"
-const RESOLVER_IPV4_LOCAL = ""
+const (
+	RESOLVER_URL_SEP         = ":"
+	RESOLVER_PORT            = "53"
+	RESOLVER_IPV4_GOOGLE     = "8.8.8.8"
+	RESOLVER_IPV4_CLOUDFLARE = "1.1.1.1"
+	RESOLVER_IPV4_LOCAL      = ""
+)
 
 /* MAIN */
 func main() {
