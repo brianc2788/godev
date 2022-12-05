@@ -6,12 +6,7 @@
 ********************************************/
 package main
 
-import (
-	"fmt"
-	//"rsc.io/quote"
-	//"https://github.com/rsc/quote/blob/v4.0.1/quote.go"
-        // cant get it working lol n00b.
-)
+import "fmt"
 
 func main() {
 	// locals
@@ -27,17 +22,16 @@ func main() {
 	// assignment
 	var1 = "thing1"
 	var2 = "thing2"
-	
+
 	fmt.Println("Hello,", goauthor1, "!") //has a separator
 	fmt.Printf("I mean, jello, %s!\n", worldstr)
 	fmt.Println("I mean...\nHello, Println, Printf, Print, et al.")
 	fmt.Print("Print() just prints the stuff you give it; no separators,",
-	          "formatting, etc.\nsee? no newline.\n",
-	          "Oh, actually, it does do the bslash esc newlines... huh.\n")
-	fmt.Printf("more debug:\n%s - %s\n",var1,var2)
+		"formatting, etc.\nsee? no newline.\n",
+		"Oh, actually, it does do the bslash esc newlines... huh.\n")
+	fmt.Printf("more debug:\n%s - %s\n", var1, var2)
 
-	//var var3 = quote.Go()
-	//fmt.Print(var3)
+	print("Just ignore this binary and whatever directory you found it in...\n")
 
 	fmt.Print("Exiting.......")
 }
