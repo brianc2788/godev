@@ -1,11 +1,12 @@
 /*
-**********************************************************
-  - portscan1.go
-
-create a tcp socket and connect to "http://scanme.nmap.org",
-aka "scanme.nmap.org:80".
+********************************************************************************
+portDialer.go
+-------------
+Port scanner written in Go.
+Currently, establishes a connection (completes TCP handshake).
+Currently only checks port 80 (http) by default.
 http://brianc2788.github.io
-**********************************************************
+********************************************************************************
 */
 package main
 
@@ -24,16 +25,24 @@ func main() {
 		os.Exit(0)
 	}
 
-	DestIP := CliArgs[1]
-	PortSuffix := ":80"
-	TransportLayer := "tcp"
+	//strings - better for readability?
+	var (
+		DestName       = CliArgs[1]
+		PortNum        = "80"
+		PortSep        = ":"
+		PortSuffix     = PortSep + PortNum
+		TransportLayer = "tcp"
+	)
 
 	// Dial it in.
-	c, err := net.Dial(TransportLayer, (DestIP + PortSuffix))
+	c, err := net.Dial(TransportLayer, (DestName + PortSuffix))
 	if err != nil {
-		fmt.Printf("Error :%s\n", err)
+		fmt.Printf("Port %s is closed/filtered or host couldn't be contacted.", PortNum)
+		panic(err)
 	} else {
-		fmt.Printf("Established connection with %s (%s).\n", DestIP, c.RemoteAddr())
+		c.Close()
+		AddrAsString := c.RemoteAddr().String()
+		AddrAsString = AddrAsString[:len(AddrAsString)-3]
+		fmt.Printf("Established connection with %s (%s) on port %s.\n", DestName, AddrAsString, PortNum)
 	}
-	c.Close()
 }
