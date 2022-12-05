@@ -5,7 +5,8 @@
 * Clone of dig (not really) from gnu written in Go.
 * TODO: Reduce bloat.
 * - Parse, print answer(s).
-* - Add TLD challenge to processName().
+* - Use TTL to determine if domain was cached.
+* - Check TLD in processName().
 * - PTR records for reverse lookup (ipv4 -> name).
 * - User Server input
 http://brianc2788.github.io/
