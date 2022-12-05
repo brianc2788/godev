@@ -21,7 +21,7 @@ import (
 	"github.com/miekg/dns"
 )
 
-/* Constants for open resolvers. */
+/* Constants for domain server options. */
 const (
 	RESOLVER_URL_SEP         = ":"
 	RESOLVER_PORT            = "53"
@@ -63,8 +63,8 @@ func processName(TestName string) string {
 	return TestName
 }
 
-/* Returns the IPv4 of DNS server; with separator & port. */
-func getDnsAddr() string {
+/* Concatonate domain name variables. */
+func catDnsAddr() string {
 	fullAddr := RESOLVER_IPV4_GOOGLE + RESOLVER_URL_SEP + RESOLVER_PORT
 	return fullAddr
 }
@@ -73,7 +73,7 @@ func getDnsAddr() string {
 func getRecordA(dn string) (*dns.Msg, error) {
 	var nMsg dns.Msg
 	nMsg.SetQuestion(dn, dns.TypeA)
-	_, err := dns.Exchange(&nMsg, getDnsAddr())
+	_, err := dns.Exchange(&nMsg, catDnsAddr())
 
 	if err != nil {
 		return nil, fmt.Errorf("Error during dns exchange.\nRuntime Error:\n%s", err)
