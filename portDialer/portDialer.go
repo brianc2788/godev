@@ -1,48 +1,53 @@
 /*
-********************************************************************************
-portDialer.go
--------------
-Port scanner written in Go.
-Currently, establishes a connection (completes TCP handshake).
-Currently only checks port 80 (http) by default.
-http://brianc2788.github.io
-********************************************************************************
+portDialer version 2.1.0
+------------------------
+Added concurrent goroutines.
+TODO: Parse args for ports and ranges.
+      Improve concurrent subroutines.
+http://brianc2788.github.io/
 */
 package main
-
 import (
 	"fmt"
-	"net"
 	"os"
+	"time"
+	"net"
 )
 
 func main() {
-	CliArgs := os.Args
-	if len(CliArgs) <= 1 || len(CliArgs) > 2 {
-		fmt.Printf("Need positional args: domain names.\n")
-		//debug
-		print("just one for now, please...")
+	args := os.Args
+	if len(args) < 3 {
+		fmt.Printf("Need domain & port(s)\n")
 		os.Exit(0)
 	}
+	dname := args[1]
+	
+	// Loop through args[2:] (ports)
+	for n := 2; n < len(args); n++ {
+		go checkPort(dname, args[n])
+	}
 
-	//strings - better for readability?
-	var (
-		DestName       = CliArgs[1]
-		PortNum        = "80"
-		PortSep        = ":"
-		PortSuffix     = PortSep + PortNum
-		Netw = "tcp"
-	)
+	// wait for goroutines
+	time.Sleep(11 * time.Second)
+}
 
-	// Dial it in.
-	c, err := net.Dial(Netw, (DestName + PortSuffix))
+
+
+func checkPort(a string, p string) {
+	to, terr := time.ParseDuration("10s")
+	if terr != nil {
+		panic(terr)
+	}
+	c, err := net.DialTimeout("tcp", a+":"+p, to)
 	if err != nil {
-		fmt.Printf("Port %s is closed/filtered or host couldn't be contacted.", PortNum)
-		panic(err)
+		fmt.Printf("%s - port %s filtered|closed\n", a, p)
 	} else {
+		fmt.Printf("%s - port %s open\n", a, p)
+		/* Printed out ipv4, but didn't come out right. Move somewhere else?
+		ip4 := c.RemoteAddr().String()
+		ip4 = ip4[:((len(ip4)-len(p))-1)]
+		fmt.Printf("Finished scanning %s (%s)\n", a, ip4)
+		*/
 		c.Close()
-		AddrAsString := c.RemoteAddr().String()
-		AddrAsString = AddrAsString[:len(AddrAsString)-3]
-		fmt.Printf("Established connection with %s (%s) on port %s.\n", DestName, AddrAsString, PortNum)
 	}
 }
