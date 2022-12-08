@@ -31,11 +31,11 @@ func main() {
 		PortNum        = "80"
 		PortSep        = ":"
 		PortSuffix     = PortSep + PortNum
-		TransportLayer = "tcp"
+		Netw = "tcp"
 	)
 
 	// Dial it in.
-	c, err := net.Dial(TransportLayer, (DestName + PortSuffix))
+	c, err := net.Dial(Netw, (DestName + PortSuffix))
 	if err != nil {
 		fmt.Printf("Port %s is closed/filtered or host couldn't be contacted.", PortNum)
 		panic(err)
