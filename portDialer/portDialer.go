@@ -3,15 +3,18 @@ portDialer version 2.1.0
 ------------------------
 Added concurrent goroutines.
 TODO: Parse args for ports and ranges.
-      Improve concurrent subroutines.
+
+	Improve concurrent subroutines.
+
 http://brianc2788.github.io/
 */
 package main
+
 import (
 	"fmt"
+	"net"
 	"os"
 	"time"
-	"net"
 )
 
 func main() {
@@ -21,7 +24,9 @@ func main() {
 		os.Exit(0)
 	}
 	dname := args[1]
-	
+
+	go spinner()
+
 	// Loop through args[2:] (ports)
 	for n := 2; n < len(args); n++ {
 		go checkPort(dname, args[n])
@@ -31,7 +36,14 @@ func main() {
 	time.Sleep(11 * time.Second)
 }
 
-
+func spinner() {
+	for {
+		for _, r := range `-\|/` {
+			fmt.Printf("%c\r", r)
+			time.Sleep(100 * time.Millisecond)
+		}
+	}
+}
 
 func checkPort(a string, p string) {
 	to, terr := time.ParseDuration("10s")
