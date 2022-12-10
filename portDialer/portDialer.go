@@ -15,6 +15,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net"
 	"os"
 	"sync"
@@ -44,7 +45,7 @@ func main() {
 func spinner() {
 	for {
 		for _, r := range `-\|/` {
-			fmt.Printf("*Scanning [%c]\r", r)
+			fmt.Printf("*Scanning [%c]\r", r) // \r won't work on windows?
 			time.Sleep(100 * time.Millisecond)
 		}
 	}
@@ -54,14 +55,15 @@ func checkPort(a string, p string, j *sync.WaitGroup) {
 	to, terr := time.ParseDuration("10s")
 	defer j.Done()
 	if terr != nil {
-		panic(terr)
+		log.Fatalf("%s\n", terr)
 	}
 	c, err := net.DialTimeout("tcp", a+":"+p, to)
 	if err != nil {
 		fmt.Printf("\r%s - port %s filtered|closed\n", a, p)
+		print(err)
 	} else {
 		fmt.Printf("\r%s - port %s open\n", a, p)
-		/* Printed out ipv4, but didn't come out right. Move somewhere else?
+		/* Undesired effect. Move somewhere else?
 		ip4 := c.RemoteAddr().String()
 		ip4 = ip4[:((len(ip4)-len(p))-1)]
 		fmt.Printf("Finished scanning %s (%s)\n", a, ip4)
