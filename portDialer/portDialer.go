@@ -36,7 +36,7 @@ func main() {
 	// Loop through args[2:] (ports)
 	for n := 2; n < len(args); n++ {
 		wgroups.Add(1)
-		go checkPort(dname, args[n], &wgroups)
+		go TcpConnect(dname, args[n], &wgroups)
 	}
 
 	wgroups.Wait()
@@ -51,7 +51,7 @@ func spinner() {
 	}
 }
 
-func checkPort(a string, p string, j *sync.WaitGroup) {
+func TcpConnect(a string, p string, j *sync.WaitGroup) {
 	to, terr := time.ParseDuration("10s")
 	defer j.Done()
 	if terr != nil {
@@ -60,7 +60,6 @@ func checkPort(a string, p string, j *sync.WaitGroup) {
 	c, err := net.DialTimeout("tcp", a+":"+p, to)
 	if err != nil {
 		fmt.Printf("\r%s - port %s filtered|closed\n", a, p)
-		print(err)
 	} else {
 		fmt.Printf("\r%s - port %s open\n", a, p)
 		/* Undesired effect. Move somewhere else?
