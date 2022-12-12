@@ -13,24 +13,19 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"strings"
 	"io"
 	"net/http"
+	"os"
+	"strings"
 )
 
 const (
-	RFC_APIURL_1 = "http://www.rfc-editor.org/rfc/"
+	RFC_APIURL_1 = "https://www.rfc-editor.org/rfc/"
 	RFC_APIURL_2 = "" //tools.ietf.org ?
 )
 
 func main() {
 	ArgList := ParseArgs()
-	/*
-	for i, a := range ArgList {
-		fmt.Printf("arg %d: %s\n", i, a)
-	}
-	*/
 
 	for _, url := range ArgList {
 		content, err := getRfcText(url)
@@ -59,7 +54,7 @@ func getRfcText(rfcnum string) (string, error) {
 		fmt.Printf("status code: %d\n", resp.StatusCode)
 		return "", err
 	}
-	
+
 	ct := resp.Header.Get("Content-Type")
 	if !strings.Contains(ct, "text/plain") {
 		err := fmt.Errorf("%T\nRecieved incorrect content-type: %s\n", resp, ct)
@@ -71,8 +66,6 @@ func getRfcText(rfcnum string) (string, error) {
 		return "", err
 	}
 
-	//debug
-	//fmt.Printf("txt var type pre-return: %T\n", txt)
 	defer resp.Body.Close()
 	return string(txt), nil
 }
