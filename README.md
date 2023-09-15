@@ -8,8 +8,8 @@ Thanks for checking it out.
 
 ---
 
-(email)[mailto:brianc2788@gmail.com]
+[email me](mailto:brianc2788@gmail.com)
 
-(Website - *Hosted by Github Pages*)[http://brianc2788.github.io]
+[Website - *Hosted by Github Pages*](http://brianc2788.github.io)
 
 ---
